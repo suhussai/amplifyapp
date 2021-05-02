@@ -1,3 +1,7 @@
+
+docker run --rm -itd --name node-docker -v $PWD:/home/app -w /home/app -p 3000:3000 -u node node:16.0.0-alpine3.13
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
