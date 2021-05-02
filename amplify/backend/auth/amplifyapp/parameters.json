@@ -1,14 +1,14 @@
 {
-    "identityPoolName": "amplifyapp2a82552d_identitypool_2a82552d",
-    "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "amplif2a82552d",
-    "userPoolName": "amplifyapp2a82552d_userpool_2a82552d",
+    "identityPoolName": "amplifyappe59e5984_identitypool_e59e5984",
+    "allowUnauthenticatedIdentities": true,
+    "resourceNameTruncated": "amplife59e5984",
+    "userPoolName": "amplifyappe59e5984_userpool_e59e5984",
     "autoVerifiedAttributes": [
         "email"
     ],
-    "mfaConfiguration": "OFF",
+    "mfaConfiguration": "OPTIONAL",
     "mfaTypes": [
-        "SMS Text Message"
+        "TOTP"
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
@@ -18,7 +18,8 @@
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
     "requiredAttributes": [
-        "email"
+        "email",
+        "name"
     ],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
@@ -28,10 +29,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "amplif2a82552d_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "amplife59e5984_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "2a82552d",
-    "resourceName": "amplifyapp2a82552d",
+    "sharedId": "e59e5984",
+    "resourceName": "amplifyapp",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -45,9 +46,22 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
+    "useDefault": "manual",
+    "thirdPartyAuth": true,
+    "authProviders": [],
+    "usernameAttributes": [
+        "email, phone_number"
+    ],
+    "userPoolGroups": false,
+    "adminQueries": false,
+    "triggers": "{}",
+    "hostedUI": false,
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "permissions": [],
     "dependsOn": []
 }
