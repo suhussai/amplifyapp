@@ -16,6 +16,11 @@ import Landing from "views/Landing.js";
 import Profile from "views/Profile.js";
 import Index from "views/Index.js";
 
+import App from "./App";
+import Amplify from "aws-amplify";
+import config from "./aws-exports";
+Amplify.configure(config);
+
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
