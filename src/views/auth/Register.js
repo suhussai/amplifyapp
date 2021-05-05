@@ -1,6 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
+import { Auth } from "aws-amplify";
+
+const initialState = { name: "", email: "", password: "" };
 
 export default function Register() {
+  const [formState, setFormState] = useState(initialState);
+
+  function setInput(key, value) {
+    setFormState({ ...formState, [key]: value });
+  }
+
+  async function signUp() {
+    try {
+      const { user } = await Auth.signUp({
+        username: formState.email,
+        password: formState.password,
+        attributes: {
+          name: formState.name,
+        },
+      });
+      console.log(user);
+    } catch (error) {
+      console.log("error signing up:", error);
+    }
+  }
+
   return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -52,6 +76,7 @@ export default function Register() {
                       Name
                     </label>
                     <input
+                      onChange={(event) => setInput("name", event.target.value)}
                       type="email"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Name"
@@ -66,6 +91,9 @@ export default function Register() {
                       Email
                     </label>
                     <input
+                      onChange={(event) =>
+                        setInput("email", event.target.value)
+                      }
                       type="email"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Email"
@@ -80,6 +108,9 @@ export default function Register() {
                       Password
                     </label>
                     <input
+                      onChange={(event) =>
+                        setInput("password", event.target.value)
+                      }
                       type="password"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Password"
@@ -110,6 +141,7 @@ export default function Register() {
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
+                      onClick={signUp}
                     >
                       Create Account
                     </button>
