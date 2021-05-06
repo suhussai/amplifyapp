@@ -1910,6 +1910,10 @@ select {
   opacity: .8;
 }
 
+.disabled\:opacity-50:disabled {
+  opacity: 0.5;
+}
+
 .outline-none {
   outline: 2px solid transparent;
   outline-offset: 2px;

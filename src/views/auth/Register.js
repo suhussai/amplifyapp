@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
+import { useHistory } from "react-router-dom";
 
 const initialState = { name: "", email: "", password: "" };
 
 export default function Register() {
+  const history = useHistory();
   const [formState, setFormState] = useState(initialState);
 
   function setInput(key, value) {
@@ -20,6 +22,10 @@ export default function Register() {
         },
       });
       console.log(user);
+      history.push({
+        pathname: "/auth/confirm",
+        state: { email: formState.email },
+      });
     } catch (error) {
       console.log("error signing up:", error);
     }
