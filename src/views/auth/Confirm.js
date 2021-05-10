@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Confirm(props) {
   const history = useHistory();
@@ -12,11 +13,13 @@ export default function Confirm(props) {
       const username = email;
       await Auth.confirmSignUp(username, code);
       console.log("Confirmed!");
+      toast.success("Registration succeeded!", { autoClose: 3000 });
       history.push({
         pathname: "/auth/login",
         state: { email: username },
       });
     } catch (error) {
+      toast.error(error.message, { autoClose: 3000 });
       console.log("error confirming sign up", error);
     }
   }

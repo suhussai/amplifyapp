@@ -2,21 +2,30 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
-export default function Login() {
+export default function Login(props) {
   const history = useHistory();
-  const [email, setEmailState] = useState("");
+  const [email, setEmailState] = useState(
+    props.location.state && props.location.state.email
+      ? props.location.state.email
+      : ""
+  );
   const [password, setPasswordState] = useState("");
   async function signIn() {
     try {
       const username = email;
-      const { user } = await Auth.signIn(username, password);
-      console.log(user);
+      await Auth.signIn(username, password);
+
+      toast.success("Welcome " + email + "!", {
+        autoClose: 3000,
+        pauseOnFocusLoss: false,
+      });
       history.push({
         pathname: "/",
-        state: { email: username },
       });
     } catch (error) {
+      toast.error(error.message, { autoClose: 3000 });
       console.log("error signing in:", error);
     }
   }

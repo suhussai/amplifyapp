@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const initialState = { name: "", email: "", password: "" };
 
@@ -27,6 +28,7 @@ export default function Register() {
         state: { email: formState.email },
       });
     } catch (error) {
+      toast.error(error.message, { autoClose: 3000 });
       console.log("error signing up:", error);
     }
   }
