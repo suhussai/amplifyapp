@@ -5,25 +5,28 @@ import { Link } from "react-router-dom";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footers/Footer.js";
 import Auth from "@aws-amplify/auth";
+import UserContext from "UserContext";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const Spinner = () => {
   return (
     <svg
-      class="animate-spin ml-1 mr-1 h-5 w-5"
+      className="animate-spin ml-1 mr-1 h-5 w-5"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
     >
       <circle
-        class="opacity-25"
+        className="opacity-25"
         cx="12"
         cy="12"
         r="10"
         stroke="currentColor"
-        stroke-width="4"
+        strokeWidth="4"
       ></circle>
       <path
-        class="opacity-75"
+        className="opacity-75"
         fill="currentColor"
         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
       ></path>
@@ -33,7 +36,7 @@ const Spinner = () => {
 const UserName = (props) => {
   let { user } = props;
 
-  if (user) {
+  if (user != null) {
     return user;
   } else {
     return <Spinner />;
@@ -43,23 +46,7 @@ const UserName = (props) => {
 // export default UserName;
 
 export default function Index() {
-  const [user, setUserState] = useState("");
-
-  useEffect(() => {
-    onLoad();
-  }, []);
-
-  async function onLoad() {
-    try {
-      const varr = await Auth.currentAuthenticatedUser();
-      console.log(varr.attributes.email);
-      setUserState(varr.attributes.email);
-    } catch (e) {
-      if (e !== "No current user") {
-        alert(e);
-      }
-    }
-  }
+  const context = React.useContext(UserContext);
 
   return (
     <>
@@ -69,7 +56,13 @@ export default function Index() {
           <div className="w-full md:w-8/12 lg:w-6/12 xl:w-6/12 px-4">
             <div className="pt-32 sm:pt-0">
               <h2 className="font-semibold text-4xl text-blueGray-600">
-                <UserName user={user}></UserName>
+                <UserName
+                  user={
+                    context.user && context.user.attributes
+                      ? context.user.attributes.email
+                      : ""
+                  }
+                ></UserName>
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-blueGray-500">
                 Notus React is Free and Open Source. It does not change any of
