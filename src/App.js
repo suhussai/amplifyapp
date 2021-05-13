@@ -38,17 +38,6 @@ class App extends Component {
     }
   };
 
-  setAlert = (status, message) => {
-    if (alert) {
-      this.setState({
-        alert: {
-          status: status,
-          message: message,
-        },
-      });
-      return;
-    }
-  };
   render() {
     return (
       <UserContext.Provider

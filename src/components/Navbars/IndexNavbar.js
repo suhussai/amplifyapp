@@ -8,11 +8,25 @@ import IndexDropdown from "components/Dropdowns/IndexDropdown.js";
 import AppName from "components/Globals/AppName.js";
 import { toast } from "react-toastify";
 import Auth from "@aws-amplify/auth";
+import { AmplifySignOut } from "@aws-amplify/ui-react";
+import { AuthState } from "@aws-amplify/ui-components";
 
 export default function Navbar(props) {
   const history = useHistory();
   const context = React.useContext(UserContext);
   const [navbarOpen, setNavbarOpen] = React.useState(false);
+
+  function authHandler(state, authData) {
+    if (state === AuthState.SignedOut) {
+      toast.success("GoodBye!", {
+        autoClose: 3000,
+        pauseOnFocusLoss: false,
+      });
+      history.push({
+        pathname: "/auth",
+      });
+    }
+  }
 
   async function signOut() {
     try {
@@ -58,13 +72,9 @@ export default function Navbar(props) {
               </li>
               {context.user && context.user.attributes ? (
                 <li className="flex items-center">
-                  <button
-                    className="bg-lightBlue-500 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={signOut}
-                  >
-                    <i className="fas fa-sign-in-alt"></i> Sign out
-                  </button>
+                  <AmplifySignOut
+                    handleAuthStateChange={authHandler}
+                  ></AmplifySignOut>
                 </li>
               ) : (
                 <Link to="/auth/login">
