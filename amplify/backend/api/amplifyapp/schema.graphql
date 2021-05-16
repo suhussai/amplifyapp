@@ -1,0 +1,33 @@
+type School
+  @model
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"], operations: [create, delete, update] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  mentors: [SchoolExpert] @connection(keyName: "bySchool", fields: ["id"])
+}
+
+# Create a join model and disable queries as you don't need them
+# and can query through Post.editors and User.posts
+type SchoolExpert
+  @model(queries: null)
+  @key(name: "byMentor", fields: ["mentorId", "schoolId"])
+  @key(name: "bySchool", fields: ["schoolId", "mentorId"]) {
+  id: ID!
+  schoolId: ID!
+  mentorId: ID!
+  school: School! @connection(fields: ["schoolId"])
+  mentor: Mentor! @connection(fields: ["mentorId"])
+}
+
+type Mentor
+  @model
+  @auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
+  id: ID!
+  name: String!
+  avgRating: Int!
+  schools: [SchoolExpert] @connection(keyName: "byMentor", fields: ["id"])
+}

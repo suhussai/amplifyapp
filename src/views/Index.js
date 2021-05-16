@@ -1,12 +1,10 @@
 /*eslint-disable*/
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footers/Footer.js";
-import Auth from "@aws-amplify/auth";
 import UserContext from "UserContext";
-
 import "react-toastify/dist/ReactToastify.css";
 
 const Spinner = () => {
@@ -47,7 +45,6 @@ const UserName = (props) => {
 
 export default function Index() {
   const context = React.useContext(UserContext);
-
   return (
     <>
       <IndexNavbar fixed />
